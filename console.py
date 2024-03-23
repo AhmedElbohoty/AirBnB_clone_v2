@@ -132,9 +132,6 @@ class HBNBCommand(cmd.Cmd):
             print("PARAM", param)
             print('\n')
 
-            if '=' not in param:
-                continue
-
             try:
                 # any double quote inside the value must be escaped with a
                 # backslash \
