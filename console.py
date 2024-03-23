@@ -129,8 +129,9 @@ class HBNBCommand(cmd.Cmd):
 
         kwargs = {}
         for param in args_list[1:]:
-            print("PARAM", param)
-            print('\n')
+
+            if '=' not in param:
+                continue
 
             try:
                 # any double quote inside the value must be escaped with a
