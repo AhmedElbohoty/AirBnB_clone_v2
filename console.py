@@ -136,10 +136,10 @@ class HBNBCommand(cmd.Cmd):
             try:
                 # any double quote inside the value must be escaped with a
                 # backslash \
-
                 # all underscores _ must be replace by spaces .
                 k, v = param.split('=')
                 k = k.replace('_', ' ')
+
                 if v[0] == '"' and v[-1] == '"':
                     v = v[1:-1].replace('\\', '').replace('_', ' ')
                 elif '.' in v:
@@ -155,6 +155,9 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[classname](kwargs)
         storage.save()
         print(new_instance.id)
+
+        args = f"{classname} {new_instance.id} {kwargs}"
+        self.do_update(args)
         storage.save()
 
     def help_create(self):
