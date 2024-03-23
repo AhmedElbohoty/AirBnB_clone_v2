@@ -138,8 +138,7 @@ class HBNBCommand(cmd.Cmd):
                 # backslash \
                 # all underscores _ must be replace by spaces .
                 k, v = param.split('=')
-                k = k.replace('_', ' ')
-
+                k = k.replace(' ', '_')
                 if v[0] == '"' and v[-1] == '"':
                     v = v[1:-1].replace('\\', '').replace('_', ' ')
                 elif '.' in v:
@@ -156,7 +155,7 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
         print(new_instance.id)
 
-        args = f"{classname} {new_instance.id} {kwargs}"
+        args = "{} {} {}".format(classname, new_instance.id, kwargs)
         self.do_update(args)
         storage.save()
 
