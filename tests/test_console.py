@@ -10,8 +10,8 @@ from console import HBNBCommand
 class TestHBNBCommand(unittest.TestCase):
     '''Unit tests for hbnb command'''
 
-    def test_help(self):
-        '''Tests for 'help' method'''
+    def test_create_user(self):
+        '''Tests for create method'''
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create User age=25")
 
