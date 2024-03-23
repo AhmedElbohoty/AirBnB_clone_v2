@@ -114,14 +114,41 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
+        ''' Create an object of any class If any parameter doesn’t fit with
+            these requirements or can’t be recognized correctly by your program,
+            it must be skipped'''
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        args_list = args.split()
+        classname = args_list[0]
+        if classname not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+
+        kwargs = {}
+        for param in args_list[1:]:
+            try:
+                # any double quote inside the value must be escaped with a
+                # backslash \
+
+                # all underscores _ must be replace by spaces .
+                k, v = param.split('=')
+                k = k.replace('_', ' ')
+                if v[0] == '"' and v[-1] == '"':
+                    v = v[1:-1].replace('\\', '').replace('_', ' ')
+                elif '.' in v:
+                    # Float: <unit>.<decimal> => contains a dot .
+                    v = float(v)
+                else:
+                    # Integer: <number> => default case
+                    v = int(v)
+                kwargs[k] = v
+            except ValueError:
+                continue
+
+        new_instance = HBNBCommand.classes[classname](kwargs)
         storage.save()
         print(new_instance.id)
         storage.save()
