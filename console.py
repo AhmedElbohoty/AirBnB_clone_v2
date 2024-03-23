@@ -115,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         ''' Create an object of any class If any parameter doesn’t fit with
-            these requirements or can’t be recognized correctly by your program,
+            these requirements or can’t be recognized correctly by your program
             it must be skipped'''
         if not args:
             print("** class name missing **")
