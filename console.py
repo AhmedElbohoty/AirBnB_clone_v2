@@ -86,9 +86,9 @@ class HBNBCommand(cmd.Cmd):
         print(instance.id)
         instance.save()
 
-        # args = "{} {} {}".format(classname, instance.id, kwargs)
-        # self.do_update(args)
-        # storage.save()
+        args = "{} {} {}".format(classname, instance.id, kwargs)
+        self.do_update(args)
+        storage.save()
 
     def do_update(self, args):
         """ Updates a certain object with new info """
