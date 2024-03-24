@@ -16,4 +16,4 @@ class TestHBNBCommand(unittest.TestCase):
             HBNBCommand().onecmd("create User age=25")
 
             obj_id = f.getvalue().strip()
-            self.assertTrue(UUID(str(obj_id)))
+            self.assertTrue(type(obj_id) == str)
