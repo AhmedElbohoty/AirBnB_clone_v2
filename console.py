@@ -39,19 +39,51 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         '''Don't execute anything'''
 
-    def do_create(self, arg):
-        '''Creates a new instance of class, saves it
-        (to the JSON file) and prints the id
-        '''
-        inputs = arg.split()
-        is_valid = self.validate_input(inputs, ['classname'])
-
-        if not is_valid:
+    def do_create(self, args):
+        ''' Create an object of any class If any parameter doesn’t fit with
+            these requirements or can’t be recognized correctly by your program
+            it must be skipped'''
+        if not args:
+            print("** class name missing **")
             return
 
-        obj = self.__classes[inputs[0]]()
-        obj.save()
-        print(obj.id)
+        args_list = args.split()
+        classname = args_list[0]
+        if classname not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+            return
+
+        kwargs = {}
+        for param in args_list[1:]:
+
+            if '=' not in param:
+                continue
+
+            try:
+                # any double quote inside the value must be escaped with a
+                # backslash \
+                # all underscores _ must be replace by spaces .
+                k, v = param.split('=')
+                k = k.replace(' ', '_')
+                if v[0] == '"' and v[-1] == '"':
+                    v = v[1:-1].replace('\\', '').replace('_', ' ')
+                elif '.' in v:
+                    # Float: <unit>.<decimal> => contains a dot .
+                    v = float(v)
+                else:
+                    # Integer: <number> => default case
+                    v = int(v)
+                kwargs[k] = v
+            except ValueError:
+                continue
+
+        new_instance = HBNBCommand.__classes[classname](kwargs)
+        storage.save()
+        print(new_instance.id)
+
+        args = "{} {} {}".format(classname, new_instance.id, kwargs)
+        self.do_update(args)
+        storage.save()
 
     def do_update(self, arg):
         '''Updates an instance based on the class name and id by adding
