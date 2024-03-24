@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """ Test """
+import unittest
+import models
 from tests.test_models.test_base_model import TestBasemodel
 from models.amenity import Amenity
 
@@ -13,6 +15,7 @@ class TestAmenity(TestBasemodel):
         self.name = "Amenity"
         self.value = Amenity
 
+    @unittest.skipIf(models.is_db, "Test for Files Storage")
     def test_name2(self):
         """ Test """
         new = self.value()
