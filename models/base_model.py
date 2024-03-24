@@ -56,11 +56,9 @@ class BaseModel:
             else:
                 self.updated_at = datetime.now()
 
-            print(kwargs.get("id", None))
             if kwargs.get("id", None) is None:
                 self.id = str(uuid4())
-            else:
-                print("Not supposed to be here")
+
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
