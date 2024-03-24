@@ -82,13 +82,13 @@ class HBNBCommand(cmd.Cmd):
             except ValueError:
                 continue
 
-        new_instance = HBNBCommand.__classes[classname](kwargs)
-        storage.save()
-        print(new_instance.id)
+        instance = HBNBCommand.__classes[classname](kwargs)
+        print(instance.id)
+        instance.save()
 
-        args = "{} {} {}".format(classname, new_instance.id, kwargs)
-        self.do_update(args)
-        storage.save()
+        # args = "{} {} {}".format(classname, instance.id, kwargs)
+        # self.do_update(args)
+        # storage.save()
 
     def do_update(self, args):
         """ Updates a certain object with new info """
