@@ -1,9 +1,17 @@
 #!/usr/bin/python3
-""" City Module for HBNB project """
+'''
+City
+'''
 from models.base_model import BaseModel
 
 
 class City(BaseModel):
-    """ The city class, contains state ID and name """
-    state_id = ""
-    name = ""
+    '''City:
+
+    Attributes:
+        name (str): city.
+        state_id (str): The State id.
+    '''
+
+    name = ''
+    state_id = ''
