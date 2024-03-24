@@ -4,12 +4,19 @@ BaseModel:
     is a class that defines all common attributes/methods for other classes.
 '''
 
-from uuid import uuid4
 from datetime import datetime
+from uuid import uuid4
+from sqlalchemy import Column, String, DateTime
+from sqlalchemy.orm import declarative_base
 import models
 
+if models.is_db:
+    Base = declarative_base()
+else:
+    Base = object
 
-class BaseModel():
+
+class BaseModel:
     '''Base class that defines all common attributes/methods for other classes
 
     Attributes:
@@ -19,26 +26,44 @@ class BaseModel():
                                and it will be updated with every changes.
     '''
 
-    def __init__(self, *args, **kwargs):
-        '''Initialize the instance
+    if models.is_db:
+        id = Column(String(60), primary_key=True)
+        created_at = Column(DateTime, default=datetime.now)
+        updated_at = Column(DateTime, default=datetime.now)
 
-        Args:
-            *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
+    def __init__(self, *args, **kwargs):
+        '''Base class that defines all common attributes/methods for other classes
+
+        Attributes:
+            id (str): unique id.
+            created_at (datetime): The datetime when an instance is created.
+            updated_at (datetime): The datetime when an instance is created
+                                and it will be updated with every changes.
         '''
-        if not kwargs:
-            from models import storage
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != "__class__":
+                    setattr(self, key, value)
+            if kwargs.get("created_at", None) and type(self.created_at) is str:
+                self.created_at = datetime.strptime(
+                    kwargs["created_at"], '%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                self.created_at = datetime.now()
+            if kwargs.get("updated_at", None) and type(self.updated_at) is str:
+                self.updated_at = datetime.strptime(
+                    kwargs["updated_at"], '%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                self.updated_at = datetime.now()
+
+            print(kwargs.get("id", None))
+            if kwargs.get("id", None) is None:
+                self.id = str(uuid4())
+            else:
+                print("Not supposed to be here")
+        else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-            storage.new(self)
-        else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
-            self.__dict__.update(kwargs)
+            self.updated_at = self.created_at
 
     def __str__(self):
         '''Return the representation of Instance.'''
@@ -50,7 +75,7 @@ class BaseModel():
     def save(self):
         '''Updates the public instance attribute updated_at'''
         self.updated_at = datetime.now()
-
+        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
@@ -64,4 +89,11 @@ class BaseModel():
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
 
+        if "_sa_instance_state" in dictionary:
+            del dictionary["_sa_instance_state"]
+
         return dictionary
+
+    def delete(self):
+        '''Delete storage'''
+        models.storage.delete(self)
