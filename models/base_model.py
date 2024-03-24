@@ -32,7 +32,8 @@ class BaseModel:
         updated_at = Column(DateTime, default=datetime.now)
 
     def __init__(self, *args, **kwargs):
-        '''Base class that defines all common attributes/methods for other classes
+        '''Base class that defines all common attributes/methods for other
+        classes
 
         Attributes:
             id (str): unique id.
