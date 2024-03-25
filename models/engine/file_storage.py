@@ -28,7 +28,7 @@ class FileStorage:
 
         lis = {}
         for k, v in self.__objects.items():
-            if cls == v.__class__.__name__:
+            if cls == v.__class__:
                 lis[k] = v
         return lis
 
