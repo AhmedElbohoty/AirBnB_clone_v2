@@ -17,13 +17,13 @@ sudo mkdir -p /data/web_static/releases/test
 
 # Create test file
 sudo touch /data/web_static/releases/test/index.html
-echo '<html>
+sudo echo '<html>
   <head>
   </head>
   <body>
     Holberton School
   </body>
-</html>' > /data/web_static/releases/test/index.html
+</html>' | sudo tee /data/web_static/releases/test/index.html
 
 # -s: Creates a symbolic link (symlink) instead of a hard link
 # -f: This flag can be useful to forcefully update or recreate existing links.
@@ -52,7 +52,7 @@ NGINX_CONFIG=\
     }
 }"
 
-echo "$NGINX_CONFIG" > /etc/nginx/sites-available/default;
+sudo echo "$NGINX_CONFIG" | sudo tee /etc/nginx/sites-available/default;
 
 # Start nginx server
 sudo service nginx start
