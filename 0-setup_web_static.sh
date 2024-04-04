@@ -17,7 +17,13 @@ sudo mkdir -p /data/web_static/releases/test
 
 # Create test file
 sudo touch /data/web_static/releases/test/index.html
-echo "Test Nginx configuration" > /data/web_static/releases/test/index.html
+echo '<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body>
+</html>' > /data/web_static/releases/test/index.html
 
 # -s: Creates a symbolic link (symlink) instead of a hard link
 # -f: This flag can be useful to forcefully update or recreate existing links.
@@ -27,7 +33,6 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 # -h: Affect symbolic links instead of their targets.
 # -R: hange the ownership of a directory and all of its contents.
 sudo chown -hR ubuntu:ubuntu /data/
-sudo sed -i '38i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
 
 # Update the Nginx configuration 
 # Config for Nginx
