@@ -11,6 +11,7 @@ Routes:
     - /python/<text>: display “Python ”, followed by the value of the text
       variable (replace underscore _ symbols with a space)
       The default value of text is “is cool”
+    - /number/<n>: display “n is a number” only if n is an integer
 '''
 
 from flask import Flask
