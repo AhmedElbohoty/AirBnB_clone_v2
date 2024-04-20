@@ -35,3 +35,17 @@ class State(BaseModel, Base):
                 if city.state_id == self.id:
                     city_list.append(city)
             return city_list
+
+    if not models.is_db:
+        @property
+        def cities(self):
+            '''Return the list of City objects from storage linked
+            to the current State
+            '''
+            cities = []
+            all_cities = models.storage.all(City)
+            for city in all_cities.values():
+                if city.state_id != self.id:
+                    continue
+                cities.append(city)
+            return cities
