@@ -4,9 +4,12 @@ script that starts a Flask web application:
 
 Your web application must be listening on 0.0.0.0, port 5000
 Routes:
-    /: display “Hello HBNB!”
-    /hbnb: display “HBNB”
+    - /: display “Hello HBNB!”
+    - /hbnb: display “HBNB”
+    - /c/<text>: display “C ” followed by the value of the text variable
+      (replace underscore _ symbols with a space )
 '''
+
 from flask import Flask
 
 
@@ -23,6 +26,14 @@ def hello_hbnb():
 def hbnb():
     '''Display "HBNB”'''
     return 'HBNB'
+
+
+@app.route('/c/<text>', strict_slashes=False)
+def display_c_text(text):
+    '''Display “C ” followed by the value of the text variable
+      (replace underscore _ symbols with a space )
+    '''
+    return 'C ' + text.replace('_', ' ')
 
 
 if __name__ == '__main__':
