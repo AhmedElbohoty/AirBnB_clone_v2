@@ -63,7 +63,7 @@ def number_template(n):
         H1 tag: “Number: n” inside the tag BODY'''
     if not isinstance(n, int):
         return ""
-    return render_template('5-number.html', number=number)
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':
