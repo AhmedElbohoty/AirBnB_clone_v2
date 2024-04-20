@@ -28,7 +28,8 @@ class State(BaseModel, Base):
     if not models.is_db:
         @property
         def cities(self):
-            '''getter for list of city instances related to the state'''
+            '''Return the list of City objects from storage linked
+            to the current State'''
             city_list = []
             all_cities = models.storage.all(City)
             for city in all_cities.values():
