@@ -4,9 +4,8 @@ State
 '''
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-import models
+
 from models.base_model import BaseModel, Base
-from models.city import City
 
 
 class State(BaseModel, Base):
@@ -15,7 +14,8 @@ class State(BaseModel, Base):
     Attributes:
         name (str): state.
     '''
-    if models.is_db:
+    from models import is_db
+    if is_db:
         __tablename__ = 'states'
         name = Column(String(128), nullable=False)
         cities = relationship('City', back_populates='state',
@@ -31,9 +31,11 @@ class State(BaseModel, Base):
     def cities(self):
         '''Return the list of City objects from storage linked
         to the current State'''
+        from models import storage
+        from models.city import City
 
         city_list = []
-        all_cities = models.storage.all(City)
+        all_cities = storage.all(City)
         for city in all_cities.values():
             if city.state_id == self.id:
                 city_list.append(city)
