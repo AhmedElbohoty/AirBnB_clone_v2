@@ -83,7 +83,7 @@ class BaseModel:
         Returns:
             dict: instance attributes.
         '''
-        dictionary = {**self.__dict__}
+        dictionary = self.__dict__.copy()
         dictionary['__class__'] = self.__class__.__name__
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
