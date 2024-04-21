@@ -5,7 +5,7 @@ __init__ file for models package
 from os import getenv
 
 
-is_db = getenv("HBNB_TYPE_STORAGE") == 'db'
+is_db = getenv('HBNB_TYPE_STORAGE') == 'db'
 
 if is_db:
     from models.engine.db_storage import DBStorage

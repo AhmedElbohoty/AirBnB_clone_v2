@@ -15,24 +15,26 @@ class State(BaseModel, Base):
     Attributes:
         name (str): state.
     '''
-    name = ''
     if models.is_db:
         __tablename__ = 'states'
         name = Column(String(128), nullable=False)
-        cities = relationship('City', backref='state')
+        cities = relationship('City', back_populates='state',
+                              cascade='all, delete, delete-orphan')
+    else:
+        name = ''
 
     def __init__(self, *args, **kwargs):
         '''Init state'''
         super().__init__(*args, **kwargs)
 
-    if not models.is_db:
-        @property
-        def cities(self):
-            '''Return the list of City objects from storage linked
-            to the current State'''
-            city_list = []
-            all_cities = models.storage.all(City)
-            for city in all_cities.values():
-                if city.state_id == self.id:
-                    city_list.append(city)
-            return city_list
+    @property
+    def cities(self):
+        '''Return the list of City objects from storage linked
+        to the current State'''
+
+        city_list = []
+        all_cities = models.storage.all(City)
+        for city in all_cities.values():
+            if city.state_id == self.id:
+                city_list.append(city)
+        return city_list
