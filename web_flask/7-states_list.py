@@ -9,6 +9,7 @@ Routes:
 '''
 from flask import Flask, render_template
 from models import storage
+from models.state import State
 
 app = Flask(__name__)
 
@@ -16,7 +17,7 @@ app = Flask(__name__)
 @app.route('/states_list', strict_slashes=False)
 def states_list():
     '''display a HTML page with the list of all State objects'''
-    states = storage.all('State').values()
+    states = storage.all(State).values()
     states = sorted(list(states), key=lambda x: x.name)
     return render_template('7-states_list.html', states=states)
 
