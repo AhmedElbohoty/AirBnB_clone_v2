@@ -23,7 +23,7 @@ def states_list():
 
 
 @app.teardown_appcontext
-def teardown_db():
+def teardown_db(exception):
     '''Closes the db storage on teardown'''
     storage.close()
 
