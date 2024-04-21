@@ -7,7 +7,7 @@ BaseModel:
 from datetime import datetime
 from uuid import uuid4
 from sqlalchemy import Column, String, DateTime
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 import models
 
 if models.is_db:
